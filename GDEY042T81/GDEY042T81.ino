@@ -11,22 +11,22 @@ unsigned char RX_BUF[EPD_ARRAY];  // 15000*8(char==8bit) == 400*300=120000
 int received = 0;
 bool receiving = false;
 
-#define EPD_STATUS 0
+#define EPD_STATUS 1
 
 void update_screen() {
-  #if EPD_STATUS == 1
+  Serial.printf("[EPD] Screen Update Start...\n");
+#if EPD_STATUS == 1
   EPD_HW_Init();
   EPD_WhiteScreen_ALL(RX_BUF);
   EPD_DeepSleep();
-  #endif
+#endif
+  // for(int i = 0; i < (EPD_ARRAY / 20); i++){
+  //   for(int j = 0; j < 20; j++){
+  //     Serial.printf("0x%02X, ", RX_BUF[(20*i)+j]);
+  //   }
+  //   Serial.printf("\n");
+  // }
 
-  Serial.printf("[EPD] Screen Update Start...\n");
-  for(int i = 0; i < (EPD_ARRAY / 20); i++){
-    for(int j = 0; j < 20; j++){
-      Serial.printf("0x%02X, ", RX_BUF[(20*i)+j]);
-    }
-    Serial.printf("\n");
-  }
   Serial.printf("[EPD] Screen Update End.\n");
 }
 
@@ -62,7 +62,7 @@ void setup() {
 }
 
 void loop() {
-#if EPD_STATUS == 1         // Full screen update, fast update, and partial update demostration.
+#if EPD_STATUS == 2         // Full screen update, fast update, and partial update demostration.
   EPD_HW_Init();            // Full screen update initialization.
   EPD_WhiteScreen_White();  // Clear screen function.
   EPD_DeepSleep();          // Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
